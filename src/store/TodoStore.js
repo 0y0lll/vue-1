@@ -2,7 +2,8 @@ import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useTodoStore = defineStore('todo', () => {
-  const todoList = ref(JSON.parse(localStorage.getItem('todoList')) || [])
+  const KEY = 'todoList'
+  const todoList = ref(JSON.parse(localStorage.getItem(KEY)) || [])
 
   const getTodoId = () => {
     return todoList.value.length ? todoList.value[0].id + 1 : 1
@@ -19,7 +20,7 @@ export const useTodoStore = defineStore('todo', () => {
   const removeTodo = (id) => {
     const filtered = todoList.value.filter((item) => item.id != id)
 
-    localStorage.setItem('todoList', JSON.stringify(filtered))
+    localStorage.setItem(KEY, JSON.stringify(filtered))
     todoList.value = filtered
   }
 
@@ -34,7 +35,7 @@ export const useTodoStore = defineStore('todo', () => {
   }
 
   watch(todoList.value, async (newTodoList) => {
-    localStorage.setItem('todoList', JSON.stringify(newTodoList))
+    localStorage.setItem(KEY, JSON.stringify(newTodoList))
   })
 
   return { todoList, addTodo, removeTodo, handleStatus, getTodoId }
