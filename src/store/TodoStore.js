@@ -1,29 +1,41 @@
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useTodoStore = defineStore('todo', () => {
-  const todoList = reactive([
-    {
-      id: 0,
-      title: 'todo1',
-      content: 'todo test',
-      status: 'active'
-    },
-    {
-      id: 1,
-      title: 'todo2',
-      content: 'todo test',
-      status: 'done'
-    }
-  ])
+  const todoList = ref(JSON.parse(localStorage.getItem('todoList')) || [])
+
+  const getTodoId = () => {
+    return todoList.value.length ? todoList.value[0].id + 1 : 1
+  }
 
   const addTodo = (todo) => {
-    todoList.push(todo)
+    if (todoList.value.length) {
+      todoList.value.unshift(todo)
+    } else {
+      todoList.value.push(todo)
+    }
   }
 
   const removeTodo = (id) => {
-    todoList.splice(id, 1)
+    const filtered = todoList.value.filter((item) => item.id != id)
+
+    localStorage.setItem('todoList', JSON.stringify(filtered))
+    todoList.value = filtered
   }
 
-  return { todoList, addTodo, removeTodo }
+  const handleStatus = (id) => {
+    const target = todoList.value.find((item) => item.id === id)
+
+    if (target.status == 'active') {
+      target.status = 'done'
+    } else {
+      target.status = 'active'
+    }
+  }
+
+  watch(todoList.value, async (newTodoList) => {
+    localStorage.setItem('todoList', JSON.stringify(newTodoList))
+  })
+
+  return { todoList, addTodo, removeTodo, handleStatus, getTodoId }
 })
