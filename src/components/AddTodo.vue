@@ -21,6 +21,14 @@
 </template>
 
 <script setup>
+defineProps({
+  filter: {
+    type: String,
+    default: 'All',
+    required: true
+  }
+})
+
 import { useTodoStore } from '@store/TodoStore'
 import { ref } from 'vue'
 import router from '../router'
@@ -34,7 +42,8 @@ const todo = {
   id: store.getTodoId(),
   title: title,
   content: content,
-  status: 'active'
+  status: 'active',
+  isShow: defineProps.filter == 'All' || defineProps.filter == 'Active' ? true : false
 }
 
 const onClick = () => {

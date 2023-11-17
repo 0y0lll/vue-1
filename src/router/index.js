@@ -13,7 +13,7 @@ const router = createRouter({
     { path: '/counter', name: 'counter', component: CounterTest },
     { path: '/props', name: 'props', component: Props, props: { prop: 'hi' } },
     { path: '/todo', name: 'todo', component: TodoList },
-    { path: '/add', name: 'addTodo', component: AddTodo },
+    { path: '/add', name: 'addTodo', component: AddTodo, props: { filter: 'All' } },
     {
       path: '/:pathMatch(.*)',
       name: 'not-found',

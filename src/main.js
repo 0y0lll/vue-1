@@ -7,6 +7,8 @@ import router from './router'
 
 // Import our custom CSS
 import './scss/styles.scss'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
 
 const app = createApp(App)
 const pinia = createPinia()

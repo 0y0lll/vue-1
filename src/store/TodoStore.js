@@ -34,9 +34,19 @@ export const useTodoStore = defineStore('todo', () => {
     }
   }
 
+  const handleStatusFilter = (filter) => {
+    if (!todoList.value.length) {
+      return
+    }
+
+    todoList.value.map(
+      (item) => (item.isShow = item.status == filter ? true : filter == 'all' ? true : false)
+    )
+  }
+
   watch(todoList.value, async (newTodoList) => {
     localStorage.setItem(KEY, JSON.stringify(newTodoList))
   })
 
-  return { todoList, addTodo, removeTodo, handleStatus, getTodoId }
+  return { todoList, addTodo, removeTodo, handleStatus, getTodoId, handleStatusFilter }
 })
