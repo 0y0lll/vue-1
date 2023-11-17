@@ -17,7 +17,11 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/components'),
       '@store': path.resolve(__dirname, 'src/store')
     }
+  },
+  build: {
+    outDir: '../dist'
   }
+
   // resolve: {
   //   alias: {
   //     '@': fileURLToPath(new URL('./src', import.meta.url))
